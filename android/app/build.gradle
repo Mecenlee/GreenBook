@@ -77,7 +77,7 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.redbook"
+    namespace "com.markus.redbook"
     defaultConfig {
         applicationId "com.redbook"
         minSdkVersion rootProject.ext.minSdkVersion
