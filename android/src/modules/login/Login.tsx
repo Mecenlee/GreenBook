@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Image, LayoutAnimation, Linking, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, LayoutAnimation, Linking, StyleSheet, Text, ToastAndroid, TouchableOpacity, View } from "react-native";
 
 
 import icon_main_logo from '../../assets/icon_main_logo.png';
@@ -18,7 +18,7 @@ import icon_close_modal from '../../assets/icon_close_modal.png';
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { formatPhone, replaceBlank } from "../../utils/StringUtil";
-import { get } from "../../utils/request";
+import UserStore from "../../stores/UserStore";
 
 export default () => {
     const [loginType, setLoginType] = useState<'quick' | 'input'>('quick');
@@ -159,16 +159,13 @@ export default () => {
                 return;
             }
 
-            // const purePhone: string = replaceBlank(phone);
-            // navigation.replace('HomeTab');
-
-            const params = {
-                name: 'Markus',
-                pwd: '123456',
-            };
-            const url = '/user/login';
-            const { data } = await get(url, params);
-
+            UserStore.requestLogin(replaceBlank(phone), pwd, (success: boolean) => {
+                if (success) {
+                    navigation.replace('MainTab');
+                } else {
+                    ToastAndroid.show(`登录失败`, ToastAndroid.LONG);
+                }
+            });
         };
 
         const styles = StyleSheet.create({

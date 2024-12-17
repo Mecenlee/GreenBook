@@ -33,3 +33,5 @@ const clear = async () => {
         console.error(e);
     }
 }
+
+export { save, clear, remove, load }

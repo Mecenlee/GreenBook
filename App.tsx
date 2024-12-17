@@ -16,7 +16,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import Welcome from './android/src/modules/welcome/Welcome';
 import Login from './android/src/modules/login/Login';
-import HomeTab from './android/src/modules/home/HomeTab';
+import MainTab from './android/src/modules/mainTab/MainTab';
 
 const Stack = createStackNavigator();
 
@@ -57,8 +57,8 @@ function App(): React.JSX.Element {
             }}
           />
           <Stack.Screen
-            name='HomeTab'
-            component={HomeTab}
+            name='MainTab'
+            component={MainTab}
             options={{
               //todo
               headerShown: false,
