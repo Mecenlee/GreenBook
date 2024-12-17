@@ -28,7 +28,7 @@ export default () => {
         const { routes, index } = state;
 
         const onPublishPress = () => {
-            console.log(`touch the publish`);
+            // console.log(`touch the publish`);
             launchImageLibrary(
                 {
                     mediaType: 'photo',
