@@ -35,7 +35,7 @@ export default () => {
                     quality: 1,
                     includeBase64: true,
                 },
-                (res: ImageLibraryOptions) => {
+                (res: ImagePickerResponse) => {
                     const { assets } = res;
                     if (!assets?.length) {
                         console.log('choose image fail');
@@ -121,7 +121,7 @@ export default () => {
                     component={Home}
                     options={{
                         title: '首页',
-
+                        headerShown: false,
                     }}
                 />
                 <BottomTab.Screen
@@ -129,6 +129,7 @@ export default () => {
                     component={Shop}
                     options={{
                         title: '购物',
+                        headerShown: false,
 
 
                     }}
@@ -138,6 +139,7 @@ export default () => {
                     component={Shop}
                     options={{
                         title: '发布',
+                        headerShown: false,
 
 
                     }}
@@ -147,6 +149,7 @@ export default () => {
                     component={Message}
                     options={{
                         title: '消息',
+                        headerShown: false,
 
 
                     }}
@@ -156,6 +159,7 @@ export default () => {
                     component={Mine}
                     options={{
                         title: '我',
+                        headerShown: false,
 
 
                     }}

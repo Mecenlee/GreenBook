@@ -19,6 +19,7 @@ import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { formatPhone, replaceBlank } from "../../utils/StringUtil";
 import UserStore from "../../stores/UserStore";
+import Toast from "../../components/widdget/Toast";
 
 export default () => {
     const [loginType, setLoginType] = useState<'quick' | 'input'>('quick');
@@ -163,7 +164,8 @@ export default () => {
                 if (success) {
                     navigation.replace('MainTab');
                 } else {
-                    ToastAndroid.show(`登录失败`, ToastAndroid.LONG);
+                    Toast.show(`登录失败`);
+                    // ToastAndroid.show(`登录失败`, ToastAndroid.LONG);
                 }
             });
         };

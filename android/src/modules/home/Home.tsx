@@ -1,6 +1,6 @@
 import { observer, useLocalStore } from "mobx-react";
-import React, { useEffect } from "react";
-import { StyleSheet, View, Text, FlatList, Dimensions, Image } from "react-native";
+import React, { useCallback, useEffect, useState } from "react";
+import { StyleSheet, View, Text, FlatList, Dimensions, Image, TouchableOpacity, ScrollView } from "react-native";
 import HomeStore from "./HomeStore";
 import { observable } from "mobx";
 
@@ -8,6 +8,11 @@ import icon_heart from '../../assets/icon_heart.png';
 import icon_heart_empty from '../../assets/icon_heart_empty.png';
 import FlowList from '../../components/flowlist/FlowList.js';
 import ResizeImage from "../../components/ResizeImage";
+import Heart from "../../components/Heart";
+import TitleBar from "./components/TitleBar";
+import CategoryList from "./components/CategoryList";
+import { StackNavigationState, useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -16,7 +21,6 @@ export default observer(() => {
     // const store = useLocalStore(() => ({
     //     ...new HomeStore(),
     // }));
-
     const store = useLocalStore(() => new HomeStore());
 
     const refreshNewData = () => {
@@ -32,31 +36,53 @@ export default observer(() => {
             <Text style={rootStyles.footerTxt}>---没有更多数据了---</Text>
         );
     }
+
     useEffect(() => {
+        store.getCategoryList();
         store.requestHomeList();
     }, []);
+
+    const onArticlePress = useCallback((article: ArticleSimple) => () => {
+        navigation.push('ArticleDetail', { id: article.id });
+    }, []);
+
+    const navigation = useNavigation<StackNavigationProp<any>>();
 
     const renderItem1 = ({ item, index }: { item: ArticleSimple, index: number }) => {
         return (
             // 每一个小卡片 
-            <View style={rootStyles.item}>
+            <TouchableOpacity style={rootStyles.item}
+                onPress={onArticlePress(item)}
+            >
                 <ResizeImage uri={item.image} />
                 <Text style={rootStyles.titleTxt}>{item.title}</Text>
                 <View style={rootStyles.nameLayout}>
                     <Image source={{ uri: item.avatarUrl }} style={rootStyles.avatarImg} />
                     <Text style={rootStyles.nameTex}>{item.userName}</Text>
-                    <Image source={icon_heart_empty} style={rootStyles.heart} />
+                    <Heart
+                        value={item.isFavorite}
+                        size={20}
+                        onValueChanged={(value: boolean) => {
+                            console.log(value);
+                        }}
+                    />
                     <Text style={rootStyles.countTxt}>{item.favoriteCount}</Text>
                 </View>
-            </View>
+            </TouchableOpacity>
         );
     }
+    const categoryList = store.categoryList.filter((i => i.isAdd));
+
     return (
         <View style={rootStyles.root}>
+            <TitleBar tab={1} onTabChanged={(tab: number) => {
+                console.log(`tab = ${tab}`);
+            }} />
             <FlowList
                 style={rootStyles.flatList}
                 data={store.homeList}
                 numColumns={2}
+                keyExtrator={(item: ArticleSimple) => `${item.id}`}
                 renderItem={renderItem1}
                 contentContainerStyle={rootStyles.container}//给整体内容的
                 refreshing={store.refreshing}
@@ -64,6 +90,11 @@ export default observer(() => {
                 onEndReachedThreshold={0.1}
                 onEndReached={loadMoreData}
                 ListFooterComponent={Footer}
+                ListHeaderComponent={
+                    <CategoryList categoryList={categoryList} onCategoryChange={(category: Category) => {
+                        console.log(`我是category改变后${JSON.stringify(category)}`);
+                    }} allCategoryList={store.categoryList} />
+                }
             />
         </View>
     );
@@ -92,7 +123,7 @@ const rootStyles = StyleSheet.create({
         overflow: 'hidden',
     },
     container: {
-        paddingTop: 6,
+        // paddingTop: 6,
     },
     titleTxt: {
         fontSize: 14,

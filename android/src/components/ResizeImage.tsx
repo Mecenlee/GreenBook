@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Image, Dimensions } from "react-native";
-
+// 可变图片组件
 type Props = {
     uri: string;
 };

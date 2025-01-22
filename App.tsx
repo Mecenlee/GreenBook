@@ -17,6 +17,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Welcome from './android/src/modules/welcome/Welcome';
 import Login from './android/src/modules/login/Login';
 import MainTab from './android/src/modules/mainTab/MainTab';
+import ArticleDetail from './android/src/modules/articleDetail/ArticleDetail';
 
 const Stack = createStackNavigator();
 
@@ -65,6 +66,14 @@ function App(): React.JSX.Element {
 
               ...TransitionPresets.SlideFromRightIOS,//指定页面切换动画
 
+            }}
+          />
+          <Stack.Screen 
+            name='ArticleDetail'
+            component={ArticleDetail}
+            options={{
+              headerShown: false,
+              ...TransitionPresets.SlideFromLeftIOS,
             }}
           />
         </Stack.Navigator>
