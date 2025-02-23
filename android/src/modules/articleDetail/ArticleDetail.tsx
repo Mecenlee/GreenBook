@@ -79,6 +79,18 @@ export default observer(() => {
             </View>
         );
     }
+    const renderInfo = () => {
+        const tags = detail.tag?.map(i => `# ${i}`).join(' ');
+        return (
+            <>
+                <Text style={styles.articleTitleTxt}>{detail.title}</Text>
+                <Text style={styles.descTxt}>{detail.desc}</Text>
+                <Text style={styles.tagsTxt}>{tags}</Text>
+                <Text style={styles.timeAndLocationTxt}>{detail.dateTime}  {detail.location}</Text>
+                <View style={styles.line} />
+            </>
+        );
+    }
     const renderComments = () => {
         return (
             <View>
@@ -94,6 +106,7 @@ export default observer(() => {
                 showsVerticalScrollIndicator={false}
             >
                 {renderImgs()}
+                {renderInfo()}
             </ScrollView>
         </View>
     ) : null;
@@ -159,5 +172,34 @@ const styles = StyleSheet.create({
         height: 6,
         borderRadius: 3,
         backgroundColor: '#c0c0c0',
+    },
+    articleTitleTxt: {
+        fontSize: 18,
+        color: '#333',
+        fontWeight: 'bold',
+        paddingHorizontal: 16,
+    },
+    descTxt: {
+        fontSize: 15,
+        color: '#333',
+        marginTop: 6,
+        paddingHorizontal: 16,
+    },
+    tagsTxt: {
+        fontSize: 15,
+        color: '#305090',
+        marginTop: 6,
+        paddingHorizontal: 16,
+    },
+    timeAndLocationTxt: {
+        fontSize: 12,
+        color: '#bbb',
+        marginVertical: 16,
+        marginLeft: 16,
+    },
+    line: {
+        marginHorizontal: 16,
+        height: StyleSheet.hairlineWidth,
+        backgroundColor: '#eee',
     },
 });
