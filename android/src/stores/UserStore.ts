@@ -1,4 +1,4 @@
-import { flow } from "mobx";
+import { action, flow, observable } from "mobx";
 import { request } from "../utils/request";
 import { save } from "../utils/Storage";
 import Login from "../modules/login/Login";
@@ -6,7 +6,7 @@ import Loading from "../components/widdget/Loading";
 
 class UserStore {
 
-    userInfo: any;
+    @observable userInfo: any;
     // requestLogin = async (phone: string, pwd: string, callback: (success: boolean) => void) => {
     //     try {
     //         const params = {
@@ -27,6 +27,11 @@ class UserStore {
     //         callback?.(false);
     //     }
     // };
+
+    @action
+    setUserInfo = (info: any) => {
+        this.userInfo = info;
+    }
 
     requestLogin = flow(function* (
         this: UserStore,

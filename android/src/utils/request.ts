@@ -1,8 +1,9 @@
 import axios, { AxiosResponse } from "axios";
 import Apis from '../api/Apis';
+import Toast from "../components/widdget/Toast";
 
 const instance = axios.create({
-    baseURL: 'http://192.168.10.7:7001',
+    baseURL: 'http://192.168.1.6:7001',
     timeout: 10 * 1000,
 });
 
@@ -26,7 +27,7 @@ instance.interceptors.response.use(
 
             } else {
                 //其他错误信息
-
+                Toast.error(`检查如下条件：1. 手机电脑需在同一wifi下 2. 代码中的ip和端口`);
             }
         } else {
             //网络异常

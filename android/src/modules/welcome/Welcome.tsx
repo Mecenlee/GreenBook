@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
-import { Image, StyleSheet, View } from "react-native"; 
+import { Image, StyleSheet, View } from "react-native";
 import icon_main_logo from '../../assets/icon_main_logo.png';
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { load } from "../../utils/Storage";
+import UserStore from "../../stores/UserStore";
 
 export default () => {
     useEffect(() => {
@@ -15,10 +16,16 @@ export default () => {
 
     const getUserInfo = async () => {
         const cacheUserInfo = await load("userInfo");
-        if (cacheUserInfo && JSON.parse(cacheUserInfo)) {
-            startHome();
-        } else {
+        if (!cacheUserInfo) {
             startLogin();
+        } else {
+            const parse = JSON.parse(cacheUserInfo);
+            if (parse) {
+                UserStore.setUserInfo(parse);
+                startHome();
+            } else {
+                startLogin();
+            }
         }
     }
     const navigation = useNavigation<StackNavigationProp<any>>();
