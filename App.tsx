@@ -18,6 +18,7 @@ import Welcome from './android/src/modules/welcome/Welcome';
 import Login from './android/src/modules/login/Login';
 import MainTab from './android/src/modules/mainTab/MainTab';
 import ArticleDetail from './android/src/modules/articleDetail/ArticleDetail';
+import SearchGoods from './android/src/modules/searchGoods/SearchGoods';
 
 const Stack = createStackNavigator();
 
@@ -63,17 +64,24 @@ function App(): React.JSX.Element {
             options={{
               //todo
               headerShown: false,
-
               ...TransitionPresets.SlideFromRightIOS,//指定页面切换动画
-
             }}
           />
-          <Stack.Screen 
+          <Stack.Screen
             name='ArticleDetail'
             component={ArticleDetail}
             options={{
               headerShown: false,
               ...TransitionPresets.SlideFromLeftIOS,
+            }}
+          />
+          <Stack.Screen
+            name='SearchGoods'
+            component={SearchGoods}
+            options={{
+              headerShown: false,
+              ...TransitionPresets.ModalFadeTransition,
+              presentation: 'transparentModal',
             }}
           />
         </Stack.Navigator>
