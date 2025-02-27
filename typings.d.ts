@@ -77,7 +77,7 @@ type MessageListItem = {
 }
 
 type UnRead = {
-    unreadFavorate: number,
+    unreadFavorite: number,
     newFollow: number,
     comment: number,
 };

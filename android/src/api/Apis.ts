@@ -20,6 +20,14 @@ const apiConfig = {
         url: '/goods/top10Category',
         method: 'get',
     },
+    messageList: {
+        url: '/message/messageList',
+        method: 'get',
+    },
+    unread: {
+        url: '/message/unread',
+        method: 'get',
+    },
 }
 
 export default apiConfig;

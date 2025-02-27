@@ -11,6 +11,7 @@ import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
+// eslint-disable-next-line no-bitwise
 const ITEM_WIDTH = SCREEN_WIDTH - 18 >> 1;
 
 export default observer(() => {
@@ -21,11 +22,11 @@ export default observer(() => {
     useEffect(() => {
         store.requestGoodsList();
         store.requestTop10Category();
-    }, []);
+    }, [store]);
 
     const onSearchPress = () => {
         navigation.push('SearchGoods');
-    }
+    };
 
     // 头部搜索栏
     const renderTitle = () => {
@@ -158,6 +159,7 @@ export default observer(() => {
                 renderItem={renderItem}
                 numColumns={2}
                 ListHeaderComponent={<ListHeader />}
+                keyExtractor={(item) => `${item.id}`}
             />
         </View>
     );
