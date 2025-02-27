@@ -6,20 +6,21 @@ import Loading from "../../components/widdget/Loading";
 
 const SIZE = 10;
 export default class HomeStore {
-    
+
     page: number = 1;
 
     @observable messageList: MessageListItem[] = [];
-    
+
     @observable refreshing: boolean = false;
-    
+
     @observable unread: UnRead = {} as UnRead;
-    
+
     @action
     resetPage = () => {
         this.page = 1;
     }
 
+    @action
     requestMessageList = async () => {
         if (this.refreshing) {
             return;
@@ -32,7 +33,7 @@ export default class HomeStore {
                 size: SIZE,
             };
             const { data } = await request('messageList', params);
-            // console.log(`data = ${JSON.stringify(data)}`);
+            // console.log(`data r= ${JSON.stringify(data)}`);
             if (data?.length) {
                 if (this.page === 1) {
                     this.messageList = data;
@@ -50,6 +51,7 @@ export default class HomeStore {
         } catch (error) {
             console.log(error);
         } finally {
+            // console.log(`data r= ${JSON.stringify(this.messageList)}`);
             this.refreshing = false;
             Loading.hide();
         }
@@ -64,5 +66,5 @@ export default class HomeStore {
             console.log(error);
         }
     })
- 
+
 }

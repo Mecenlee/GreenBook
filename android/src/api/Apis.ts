@@ -28,6 +28,6 @@ const apiConfig = {
         url: '/message/unread',
         method: 'get',
     },
-}
+};
 
 export default apiConfig;

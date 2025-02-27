@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useEffect } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Image, FlatList } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { StyleSheet, View, Text, TouchableOpacity, Image, FlatList, GestureResponderEvent } from 'react-native';
 import { useLocalStore } from 'mobx-react';
 import MessageStore from './MessageStore';
 
@@ -9,10 +9,12 @@ import icon_star from '../../assets/icon_star.png';
 import icon_new_follow from '../../assets/icon_new_follow.png';
 import icon_comments from '../../assets/icon_comments.png';
 import icon_to_top from '../../assets/icon_to_top.png';
+import FloatMenu, { FloatMenuRef } from './FloatMenu';
 
 export default () => {
 
     const store = useLocalStore(() => new MessageStore());
+    const ref = useRef<FloatMenuRef>(null);
 
     useEffect(() => {
         store.requestMessageList();
@@ -35,7 +37,6 @@ export default () => {
             iconGroup: {
                 width: 16,
                 height: 16,
-
             },
             groupTxt: {
                 fontSize: 14,
@@ -52,7 +53,12 @@ export default () => {
         return (
             <View style={styles.titleLayout}>
                 <Text style={styles.titleTxt}>消息</Text>
-                <TouchableOpacity style={styles.groupButton}>
+                <TouchableOpacity style={styles.groupButton}
+                    onPress={(event: GestureResponderEvent) => {
+                        const { pageY } = event.nativeEvent;
+                        ref.current?.show(pageY + 48);
+                    }}
+                >
                     <Image source={icon_group} style={styles.iconGroup} />
                     <Text style={styles.groupTxt}>群聊</Text>
                 </TouchableOpacity>
@@ -82,6 +88,7 @@ export default () => {
         );
     };
 
+    // eslint-disable-next-line react/no-unstable-nested-components
     const Header = () => {
         const styles = StyleSheet.create({
             headerLayout: {
@@ -111,7 +118,7 @@ export default () => {
                 <View style={styles.headerItem}>
                     <View>
                         <Image style={styles.itemImg} source={icon_star} />
-                        {!!unread?.unreadFavorite && <UnRead count={unread?.unreadFavorite} />}
+                        {!!unread?.unreadFavorate && <UnRead count={unread?.unreadFavorate} />}
                     </View>
                     <Text style={styles.itemTxt}>赞和收藏</Text>
                 </View>
@@ -129,12 +136,11 @@ export default () => {
                     </View>
                     <Text style={styles.itemTxt}>评论和@</Text>
                 </View>
-
             </View>
         );
     };
 
-    const renderItem = ({ item, index }: { item: MessageListItem, index: number }) => {
+    const renderItem = ({ item }: { item: MessageListItem, index: number }) => {
         const styles = StyleSheet.create({
             item: {
                 width: '100%',
@@ -198,11 +204,12 @@ export default () => {
             <FlatList
                 style={{ flex: 1 }}
                 data={store.messageList}
-                extraData={[store.unread]}
+                extraData={store.unread}
                 keyExtractor={(item) => `${item.id}`}
                 renderItem={renderItem}
                 ListHeaderComponent={<Header />}
             />
+            <FloatMenu ref={ref} />
         </View>
     );
 };
