@@ -113,6 +113,7 @@ export default () => {
         });
 
         const { unread } = store;
+
         return (
             <View style={styles.headerLayout}>
                 <View style={styles.headerItem}>
