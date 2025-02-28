@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { useEffect, useRef } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Image, FlatList, GestureResponderEvent } from 'react-native';
-import { useLocalStore } from 'mobx-react';
+import { observer, useLocalStore } from 'mobx-react';
 import MessageStore from './MessageStore';
 
 import icon_group from '../../assets/icon_group.png';
@@ -10,8 +10,10 @@ import icon_new_follow from '../../assets/icon_new_follow.png';
 import icon_comments from '../../assets/icon_comments.png';
 import icon_to_top from '../../assets/icon_to_top.png';
 import FloatMenu, { FloatMenuRef } from './FloatMenu';
+import icon_no_collection from '../../assets/icon_no_collection.webp';
+import Empty from '../../components/Empty';
 
-export default () => {
+export default observer(() => {
 
     const store = useLocalStore(() => new MessageStore());
     const ref = useRef<FloatMenuRef>(null);
@@ -209,11 +211,12 @@ export default () => {
                 keyExtractor={(item) => `${item.id}`}
                 renderItem={renderItem}
                 ListHeaderComponent={<Header />}
+                ListEmptyComponent={<Empty icon={icon_no_collection} tips='暂无消息' />}
             />
             <FloatMenu ref={ref} />
         </View>
     );
-};
+});
 
 const rootStyles = StyleSheet.create({
     root: {

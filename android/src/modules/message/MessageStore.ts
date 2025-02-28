@@ -5,7 +5,7 @@ import Loading from "../../components/widdget/Loading";
 
 
 const SIZE = 10;
-export default class HomeStore {
+export default class MessageStore {
 
     page: number = 1;
 
@@ -58,7 +58,7 @@ export default class HomeStore {
     }
 
     @action
-    requestUnRead = flow(function* (this: HomeStore) {
+    requestUnRead = flow(function* (this: MessageStore) {
         try {
             const { data } = yield request('unread', {});
             this.unread = data || {};

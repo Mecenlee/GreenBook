@@ -55,7 +55,6 @@ export default ({ tab, onTabChanged }: Props) => {
                     style={styles.icon}
                 />
             </TouchableOpacity>
-
         </View>
     );
 }
