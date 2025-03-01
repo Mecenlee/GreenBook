@@ -3,6 +3,7 @@ import { Image, StyleSheet, TouchableOpacity, View, Text, ToastAndroid } from "r
 import icon_daily from '../../../assets/icon_daily.png';
 import icon_search from '../../../assets/icon_search.png';
 import Toast from "../../../components/widdget/Toast";
+import { Pushy, usePushy } from "react-native-update";
 
 type Props = {
     tab: number;
@@ -15,8 +16,24 @@ export default ({ tab, onTabChanged }: Props) => {
         setTabIndex(tab);
     }, [tab]);
 
+
     const hotfixPress = async () => {
-        Toast.show(`点击搜索`);
+        const { checkUpdate, downloadUpdate, switchVersion, updateInfo } = usePushy();
+        let showTxt = "默认文字";
+        await checkUpdate();
+        if (updateInfo?.upToDate) {
+            showTxt = '已经是最新版本';
+        } else if (updateInfo?.update) {
+            showTxt = "需要更新";
+            const downloadSuccess = await downloadUpdate();
+            if (downloadSuccess) {
+                switchVersion();
+                showTxt = `${showTxt}-完毕`;
+            } else {
+                showTxt = `${showTxt}下载失败`;
+            }
+        }
+        Toast.show(showTxt);
     }
 
     return (

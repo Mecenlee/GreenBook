@@ -92,7 +92,7 @@ export default observer(() => {
                 ListFooterComponent={Footer}
                 ListHeaderComponent={
                     <CategoryList categoryList={categoryList} onCategoryChange={(category: Category) => {
-                        console.log(`我是category改变后${JSON.stringify(category)}`);
+                        // console.log(`我是category改变后${JSON.stringify(category)}`);
                     }} allCategoryList={store.categoryList} />
                 }
             />
