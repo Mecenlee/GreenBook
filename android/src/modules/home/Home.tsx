@@ -1,6 +1,6 @@
 import { observer, useLocalStore } from "mobx-react";
 import React, { useCallback, useEffect, useState } from "react";
-import { StyleSheet, View, Text, FlatList, Dimensions, Image, TouchableOpacity, ScrollView } from "react-native";
+import { StyleSheet, View, Text, FlatList, Dimensions, Image, TouchableOpacity, ScrollView, Platform } from "react-native";
 import HomeStore from "./HomeStore";
 import { observable } from "mobx";
 
@@ -13,6 +13,8 @@ import TitleBar from "./components/TitleBar";
 import CategoryList from "./components/CategoryList";
 import { StackNavigationState, useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { usePushy } from "react-native-update";
+
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -37,10 +39,32 @@ export default observer(() => {
         );
     }
 
+
+
     useEffect(() => {
         store.getCategoryList();
         store.requestHomeList();
     }, []);
+
+    const { client,
+        checkUpdate,
+        downloadUpdate,
+        switchVersionLater,
+        switchVersion,
+        updateInfo,
+        packageVersion,
+        currentHash,
+        progress: { received, total } = {}, } = usePushy();
+    console.log(`${client} \n`);
+    console.log(`${checkUpdate} \n`);
+    console.log(`${downloadUpdate} \n`);
+    console.log(`${switchVersionLater} \n`);
+    console.log(`${switchVersion} \n`);
+    console.log(`${updateInfo} \n`);    //
+    console.log(`${packageVersion} \n`);
+    console.log(`${currentHash} \n`);
+
+
 
     const onArticlePress = useCallback((article: ArticleSimple) => () => {
         navigation.push('ArticleDetail', { id: article.id });
