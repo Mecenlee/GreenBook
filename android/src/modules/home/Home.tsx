@@ -2,20 +2,14 @@ import { observer, useLocalStore } from "mobx-react";
 import React, { useCallback, useEffect, useState } from "react";
 import { StyleSheet, View, Text, FlatList, Dimensions, Image, TouchableOpacity, ScrollView, Platform } from "react-native";
 import HomeStore from "./HomeStore";
-import { observable } from "mobx";
 
-import icon_heart from '../../assets/icon_heart.png';
-import icon_heart_empty from '../../assets/icon_heart_empty.png';
 import FlowList from '../../components/flowlist/FlowList.js';
 import ResizeImage from "../../components/ResizeImage";
 import Heart from "../../components/Heart";
 import TitleBar from "./components/TitleBar";
 import CategoryList from "./components/CategoryList";
-import { StackNavigationState, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { usePushy } from "react-native-update";
-import Toast from "../../components/widdget/Toast";
-// import { usePushy, checkPatch } from "react-native-update";
 
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
@@ -26,23 +20,10 @@ export default observer(() => {
     //     ...new HomeStore(),
     // }));
     const store = useLocalStore(() => new HomeStore());
-    const {
-        client,
-        checkUpdate,
-        downloadUpdate,
-        switchVersionLater,
-        switchVersion,
-        updateInfo,
-        packageVersion,
-        currentHash,
-        progress: { received, total } = {},
-    } = usePushy();
 
     const refreshNewData = () => {
         store.resetPage();
         store.requestHomeList();
-        checkUpdate();
-        Toast.show(`热更新：${updateInfo?.name}-${updateInfo?.description}`);
     }
 
     const loadMoreData = () => {

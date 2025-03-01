@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Image, StyleSheet, TouchableOpacity, View, Text, ToastAndroid } from "react-native";
 import icon_daily from '../../../assets/icon_daily.png';
 import icon_search from '../../../assets/icon_search.png';
-import { usePushy } from "react-native-update";
 import Toast from "../../../components/widdget/Toast";
 
 type Props = {
@@ -16,32 +15,8 @@ export default ({ tab, onTabChanged }: Props) => {
         setTabIndex(tab);
     }, [tab]);
 
-    const {
-        client,
-        checkUpdate,
-        downloadUpdate,
-        switchVersionLater,
-        switchVersion,
-        updateInfo,
-        packageVersion,
-        currentHash,
-        progress: { received, total } = {
-
-        },
-    } = usePushy();
-
     const hotfixPress = async () => {
-        await checkUpdate();
-
-        ToastAndroid.show(`upToDate(无更新)-updata(有):${updateInfo?.upToDate}-${updateInfo?.update}, 热更新：${updateInfo?.name}-${updateInfo?.description}`, ToastAndroid.LONG);
-        Toast.show(`${updateInfo?.name}`);
-        if (updateInfo?.update) {
-            if (await downloadUpdate()) {
-                switchVersion();
-            } else {
-                Toast.show(`diff包下载失败`);
-            }
-        }
+        Toast.show(`点击搜索`);
     }
 
     return (
@@ -90,8 +65,6 @@ export default ({ tab, onTabChanged }: Props) => {
                     />
                 </TouchableOpacity>
             </View>
-            <Text style={styles.logTxt}>{`updateInfo=${JSON.stringify(updateInfo)}, \n`}</Text>
-            <Text style={styles.logTxt}>{`name:${updateInfo?.name},des:${updateInfo?.description}`}</Text>
         </>
 
     );
