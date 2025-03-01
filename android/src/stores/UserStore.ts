@@ -3,6 +3,7 @@ import { request } from "../utils/request";
 import { save } from "../utils/Storage";
 import Login from "../modules/login/Login";
 import Loading from "../components/widdget/Loading";
+import Toast from "../components/widdget/Toast";
 
 class UserStore {
 
@@ -38,7 +39,7 @@ class UserStore {
         phone: string,
         pwd: string,
         callback: (success: boolean) => void) {
-            Loading.show();
+        Loading.show();
         try {
             const params = {
                 name: phone,
@@ -55,6 +56,7 @@ class UserStore {
             }
         } catch (error) {
             console.log(error);
+            Toast.show(`${error}`);
             this.userInfo = null;
             callback?.(false);
         } finally {

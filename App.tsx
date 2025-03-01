@@ -39,7 +39,7 @@ function App(): React.JSX.Element {
     <PushyProvider
       client={pushyClient}
     >
-    // 下面这里要用Navigation换成了Provider
+      {/* // 下面这里要用Navigation换成了Provider */}
       <SafeAreaProvider>
         <StatusBar
           barStyle={'dark-content'}

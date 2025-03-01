@@ -14,6 +14,8 @@ import CategoryList from "./components/CategoryList";
 import { StackNavigationState, useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { usePushy } from "react-native-update";
+import Toast from "../../components/widdget/Toast";
+// import { usePushy, checkPatch } from "react-native-update";
 
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
@@ -24,10 +26,23 @@ export default observer(() => {
     //     ...new HomeStore(),
     // }));
     const store = useLocalStore(() => new HomeStore());
+    const {
+        client,
+        checkUpdate,
+        downloadUpdate,
+        switchVersionLater,
+        switchVersion,
+        updateInfo,
+        packageVersion,
+        currentHash,
+        progress: { received, total } = {},
+    } = usePushy();
 
     const refreshNewData = () => {
         store.resetPage();
         store.requestHomeList();
+        checkUpdate();
+        Toast.show(`热更新：${updateInfo?.name}-${updateInfo?.description}`);
     }
 
     const loadMoreData = () => {
@@ -39,30 +54,10 @@ export default observer(() => {
         );
     }
 
-
-
     useEffect(() => {
         store.getCategoryList();
         store.requestHomeList();
     }, []);
-
-    const { client,
-        checkUpdate,
-        downloadUpdate,
-        switchVersionLater,
-        switchVersion,
-        updateInfo,
-        packageVersion,
-        currentHash,
-        progress: { received, total } = {}, } = usePushy();
-    console.log(`${client} \n`);
-    console.log(`${checkUpdate} \n`);
-    console.log(`${downloadUpdate} \n`);
-    console.log(`${switchVersionLater} \n`);
-    console.log(`${switchVersion} \n`);
-    console.log(`${updateInfo} \n`);    //
-    console.log(`${packageVersion} \n`);
-    console.log(`${currentHash} \n`);
 
 
 
