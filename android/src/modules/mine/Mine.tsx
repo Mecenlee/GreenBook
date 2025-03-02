@@ -114,7 +114,7 @@ export default observer(() => {
             },
             nameTxt: {
                 fontSize: 22,
-                color: 'blue',
+                color: 'white',
                 fontWeight: 'bold',
             },
             idLayout: {
