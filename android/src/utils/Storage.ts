@@ -1,17 +1,22 @@
-import AsyncStorage from "@react-native-async-storage/async-storage"
+import { MMKV } from 'react-native-mmkv';
+
+// 创建一个存储实例
+const storage = new MMKV();
 
 // 异步拿到一个Promise
 const save = async (key: string, value: string) => {
     try {
-        return await AsyncStorage.setItem(key, value);
+        storage.set(key, value);
+        return true;
     } catch (e) {
         console.error(e);
+        return false;
     }
 }
 
 const load = async (key: string) => {
     try {
-        return await AsyncStorage.getItem(key);
+        return storage.getString(key);
     } catch (e) {
         console.error(e);
         return null;
@@ -20,17 +25,21 @@ const load = async (key: string) => {
 
 const remove = async (key: string) => {
     try {
-        return await AsyncStorage.removeItem(key);
+        storage.delete(key);
+        return true;
     } catch (e) {
         console.error(e);
+        return false;
     }
 }
 
 const clear = async () => {
     try {
-        AsyncStorage.clear();
+        storage.clearAll();
+        return true;
     } catch (e) {
         console.error(e);
+        return false;
     }
 }
 
